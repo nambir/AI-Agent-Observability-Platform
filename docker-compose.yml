@@ -1,0 +1,12 @@
+services:
+  observability:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile
+    ports:
+      - "8300:8300"
+    volumes:
+      - observability-data:/app/data
+
+volumes:
+  observability-data:

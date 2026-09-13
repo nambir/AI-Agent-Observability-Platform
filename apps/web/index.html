@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Agent Observatory</title><link rel="stylesheet" href="style.css"></head>
+<body><header><div><p class="eyebrow">AI OPERATIONS</p><h1>Agent Observatory</h1></div><span class="live">● LIVE TELEMETRY</span></header><main>
+<section id="metrics" class="metrics"></section>
+<section class="panel"><div class="panel-title"><div><p class="eyebrow">TRACE EXPLORER</p><h2>Recent agent runs</h2></div><button onclick="loadAll()">Refresh</button></div><div class="table-wrap"><table><thead><tr><th>Agent</th><th>Status</th><th>Model / prompt</th><th>Latency</th><th>Cost</th><th>Risk</th></tr></thead><tbody id="runs"></tbody></table></div></section>
+<section class="split"><div class="panel"><p class="eyebrow">HUMAN IN THE LOOP</p><h2>Approval queue</h2><div id="approvals"></div></div><div class="panel"><p class="eyebrow">AUDIT</p><h2>Latest events</h2><div id="audit"></div></div></section>
+</main><dialog id="traceDialog"><button class="close" onclick="traceDialog.close()">×</button><div id="trace"></div></dialog><script src="app.js"></script></body></html>
