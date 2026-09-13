@@ -1,27 +1,19 @@
 # AI Agent Observability Platform
 
-Production-style telemetry, evaluation, and approval controls for AI-agent workflows.
+Telemetry, evaluation, and approval controls for AI-agent workflows.
 
-This is a dependency-light portfolio demo: Python standard library, SQLite, and a browser dashboard. It runs locally without API keys or a cloud account.
+Python standard library, SQLite, and a browser dashboard. It runs locally without API keys or a cloud account.
 
 ## The problems this solves
 
-| Production problem | What goes wrong without a design | How this project proves the solution |
+| Problem | What goes wrong | What this does |
 |---|---|---|
 | **AI-agent failures and cost are invisible** | An agent gives a poor answer, times out, or becomes expensive—but the team cannot connect the failure to its prompt version, model, tool call, latency, token use, or trace. Debugging becomes guesswork. | Every run records its trace ID, agent, model, prompt version, tool, status, latency, tokens, estimated cost, and error. The dashboard turns this into a trace explorer and operating metrics. |
 | **High-risk agent tools need human accountability** | An agent can attempt an irreversible action such as issuing a refund, sending an email, or changing customer data, with no reviewable decision trail. This creates security, compliance, and trust risk. | High- and critical-risk tool calls automatically enter an approval queue. An approve/reject decision, reviewer, note, and audit event are retained for review. |
 
-### Why this adds value to a GitHub profile
+Seeded data includes a failed `invoice-triage` run and a pending `issue_refund` approval so you can click through traces, cost, and the audit trail without sending a request first.
 
-It shows more than prompt engineering or a chatbot UI. The project demonstrates a Technical Lead / Staff-level concern: how to run AI agents safely and reliably in production, with observability, cost awareness, PII-safe telemetry, and human-in-the-loop controls.
-
-### Demo walkthrough in two minutes
-
-1. Open the dashboard and point out the failed `invoice-triage` run, its latency, token cost, and trace metadata.
-2. Open the pending `issue_refund` approval to show that a high-risk tool action requires a reviewer decision and creates an audit record.
-3. Explain the production evolution: OpenTelemetry ingestion, Kafka buffering, Postgres/ClickHouse retention, and identity/RBAC—while keeping the same telemetry and approval model.
-
-## What it demonstrates
+## What it does
 
 - Ingests agent runs with model, prompt version, token, latency, tool-call, and error metadata
 - Groups related work by trace ID and renders parent/child spans
@@ -41,7 +33,7 @@ Ingestion API ──► SQLite (runs, spans, approvals, audit)
 
 ## Demo screens and workflow
 
-The screenshots below use **synthetic mock telemetry**. They illustrate the dashboard state that is seeded automatically when the local application first runs.
+The screenshots use sample telemetry seeded on first run.
 
 ### 1. Operations dashboard
 
@@ -151,13 +143,13 @@ python -m unittest discover -s tests -v
 
 Tests cover cost calculation, PII-safe persistence, high-risk approval generation, and approval audit records.
 
-## Production path
+## Further work
 
-Replace the local adapter with OpenTelemetry collectors, Postgres/ClickHouse for telemetry, Redis/Kafka for asynchronous ingestion, object storage for approved redacted payloads, and an enterprise identity provider. The core data model intentionally separates durable audit events from observability data so retention policies can differ.
+OpenTelemetry collectors, Postgres/ClickHouse for telemetry, Redis/Kafka for asynchronous ingestion, object storage for approved redacted payloads, and an identity provider. Audit events stay separate from observability data so retention policies can differ.
 
 ## Safety notes
 
-- This demo never executes tools; it records agent-supplied telemetry only.
+- This service never executes tools; it records agent-supplied telemetry only.
 - `containsPii: true` prevents raw prompt/response previews from being persisted.
 - An approval decision is an auditable control, not proof that a tool execution succeeded.
 - Sample data is synthetic.
